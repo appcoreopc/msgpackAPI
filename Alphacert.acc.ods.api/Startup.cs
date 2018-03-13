@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 using Alphacert.Acc.Ods.Entities;
 using Microsoft.EntityFrameworkCore;
 using Alphacert.Acc.Ods.Api;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.Logging;
+using AlphaCert.RDS.Repository;
 
 namespace Alphacert.acc.ods.api
 {
@@ -24,8 +25,8 @@ namespace Alphacert.acc.ods.api
         {
             var connectionString = Configuration[AppConstant.ConnectionString];
 
-            services.AddDbContextPool<IDS_ODSContext>(o => o.UseSqlServer(connectionString));
-
+            services.AddDbContextPool<IDS_ODSContext>(o => o.UseSqlServer(connectionString)).AddAlphaCertUnitorOfWork();
+            
             services.AddMvc();
                         
             services.AddSwaggerGen(c =>
@@ -36,7 +37,7 @@ namespace Alphacert.acc.ods.api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -49,9 +50,12 @@ namespace Alphacert.acc.ods.api
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", AppConstant.ApiKeyInfo);
             });
 
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+
+            loggerFactory.AddDebug();
         }
     }
 }
