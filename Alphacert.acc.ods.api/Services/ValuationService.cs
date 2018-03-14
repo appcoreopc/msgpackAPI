@@ -37,7 +37,7 @@ namespace Alphacert.Acc.Ods.Api.Services
 
                         string json = JsonConvert.SerializeObject(data.ToArray());
                         var fileTargetPath = Path.Combine(AppConstant.fileResourceFolder, AppConstant.fileResourceName);
-                        File.WriteAllText(fileTargetPath, json);
+                         File.WriteAllText(fileTargetPath, json);
                     }
                 });
             }

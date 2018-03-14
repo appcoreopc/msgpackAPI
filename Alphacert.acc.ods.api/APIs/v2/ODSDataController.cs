@@ -15,7 +15,6 @@ using Microsoft.Extensions.Options;
 
 namespace Alphacert.Acc.Ods.Api.APIs.v2
 {
-
     [Route("[controller]")]
     public class ODSDataController : Controller
     {
@@ -40,7 +39,7 @@ namespace Alphacert.Acc.Ods.Api.APIs.v2
         [SwaggerResponse((int)HttpStatusCode.NotFound, Type = typeof(string))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
         [HttpGet("countries/{version}")]
-        public async Task<IActionResult> GetCountries(string version, [FromQuery(Name = "last-modified")]DateTime? lastModified = null)
+        public async Task<IActionResult> GetCountries(string version, [FromQuery(Name = AppConstant.UrlLastModifiedParamater)]DateTime? lastModified = null)
         {
             var list = await _unitOfWork.Repository<Country>().Query.All().AsEnumerableAsync();
             var data = list.Select(a => new ViewCountry {  Name = a.CountryName, Code = a.Iso2charCode, CurrencyCode = a.Currency});           
@@ -48,7 +47,7 @@ namespace Alphacert.Acc.Ods.Api.APIs.v2
         }
 
         [HttpGet("currencies/{version}")]
-        public async Task<IActionResult> GetCurrencies(string version, [FromQuery(Name = "last-modified")]DateTime? lastModified = null)
+        public async Task<IActionResult> GetCurrencies(string version, [FromQuery(Name = AppConstant.UrlLastModifiedParamater)]DateTime? lastModified = null)
         {
             var list = await _unitOfWork.Repository<BbcurrencyMapping>().Query.All().AsEnumerableAsync();
             var data = list.Select(a => new ViewCurrency {  Code = a.Isocode, Name = a.CurrencyDescription });
@@ -56,7 +55,7 @@ namespace Alphacert.Acc.Ods.Api.APIs.v2
         }
         
         [HttpGet("instruments/{version}")]
-        public async Task<IActionResult> GetInstruments(string version, [FromQuery(Name = "last-modified")]DateTime? lastModified = null)
+        public async Task<IActionResult> GetInstruments(string version, [FromQuery(Name = AppConstant.UrlLastModifiedParamater)]DateTime? lastModified = null)
         {
             var list = await _unitOfWork.Repository<Instrument>().Query.All().AsEnumerableAsync();
             var data = list.Select(a => new ViewInstrument { InstrumentId = a.InstrumentId.ToString(), InstrumentName = a.InstrumentName,
@@ -71,14 +70,14 @@ namespace Alphacert.Acc.Ods.Api.APIs.v2
         /// <param name="lastModified"></param>
         /// <returns></returns>        
         [HttpPost("valuations/{version}")]
-        public async Task<IActionResult> GetValuation(string version, [FromQuery(Name = "last-modified")]DateTime? lastModified = null)
+        public async Task<IActionResult> GetValuation(string version, [FromQuery(Name = AppConstant.UrlLastModifiedParamater)]DateTime? lastModified = null)
         {
             new ValuationService(_appConfig.AppSettings.DBConnectionString).GetValuationData();
             return Created("valuationsdata", string.Empty);
         }
         
         [HttpGet("portfolios/{version}")]
-        public async Task<IActionResult> GetPortfolios(string version, [FromQuery(Name = "last-modified")]DateTime? lastModified = null)
+        public async Task<IActionResult> GetPortfolios(string version, [FromQuery(Name = AppConstant.UrlLastModifiedParamater)]DateTime? lastModified = null)
         {
             var list = await _unitOfWork.Repository<Portfolio>().Query.All().AsEnumerableAsync();
             var data = list.Select(a => new ViewPortfolio
@@ -92,7 +91,7 @@ namespace Alphacert.Acc.Ods.Api.APIs.v2
         }
                          
         [HttpGet("valuationsdata")]
-        public async Task<IActionResult> GetPartialPortfolios(string version, [FromQuery(Name = "last-modified")]DateTime? lastModified = null)
+        public async Task<IActionResult> GetPartialPortfolios(string version, [FromQuery(Name = AppConstant.UrlLastModifiedParamater)]DateTime? lastModified = null)
         {            
             var path = Path.Combine(AppConstant.fileResourceFolder, AppConstant.fileResourceName);
             if (System.IO.File.Exists(path))

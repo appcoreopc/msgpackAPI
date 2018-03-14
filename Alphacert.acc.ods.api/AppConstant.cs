@@ -17,5 +17,7 @@ namespace Alphacert.Acc.Ods.Api
         public const string fileResourceFolder = "wwwroot";
 
         public const string ApiVersion = "v1";
+        
+        public const string UrlLastModifiedParamater = "last-modified";
     }
 }
