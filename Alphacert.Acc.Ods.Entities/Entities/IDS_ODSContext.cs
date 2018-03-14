@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Alphacert.Acc.Ods.Entities.Views;
 
 namespace Alphacert.Acc.Ods.Entities.Entities
 {
@@ -186,12 +187,13 @@ namespace Alphacert.Acc.Ods.Entities.Entities
         public virtual DbSet<TransactionType> TransactionType { get; set; }
         public virtual DbSet<TypeSettlementPlace> TypeSettlementPlace { get; set; }
 
+       
         // Unable to generate entity type for table 'dbo.AssetClassGroupComponent'. Please see the warning messages.
         // Unable to generate entity type for table 'dbo.FutureOptionPL'. Please see the warning messages.
         // Unable to generate entity type for table 'dbo.FXManagerTrade'. Please see the warning messages.
         // Unable to generate entity type for table 'dbo.SystemVariableReference'. Please see the warning messages.
         // Unable to generate entity type for table 'dbo.FXRateHistory'. Please see the warning messages.
-            
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -200,12 +202,13 @@ namespace Alphacert.Acc.Ods.Entities.Entities
                 entity.HasKey(e => e.AdjustmentHistoryId);
 
                 entity.ToTable("ACCAdjustmentHistory");
+                
 
                 entity.Property(e => e.AdjustmentHistoryId).HasColumnName("AdjustmentHistoryID");
 
                 entity.Property(e => e.AjustmentStatusId).HasColumnName("AjustmentStatusID");
 
-                entity.Property(e => e.Comments).HasColumnType("nvarchar");
+                entity.Property(e => e.Comments).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.HoldingId).HasColumnName("HoldingID");
 
@@ -227,6 +230,37 @@ namespace Alphacert.Acc.Ods.Entities.Entities
                     .HasForeignKey(d => d.HoldingId)
                     .HasConstraintName("FK_AdjustmentHistory_Holdings");
             });
+            
+
+            modelBuilder.Entity<VwValuations>(entity =>
+            {
+                entity.HasKey(e => e.InstrumentId);
+
+                entity.ToTable("VwValuations");
+
+                entity.Property(e => e.InstrumentId)
+                                .HasColumnName("InstrumentId")
+                                .HasMaxLength(50);
+                
+                entity.Property(e => e.Instrument_Name)
+                                .HasColumnName("Instrument_Name")
+                                .HasColumnType("nvarchar(4000)");
+
+                entity.Property(e => e.Market_Value_Local_Discount)
+                                .HasColumnName("Market_Value_Local_Discount")
+                                .HasColumnType("decimal(38, 5)");
+
+                entity.Property(e => e.PortfolioId)
+                              .HasColumnName("PortfolioId")
+                              .HasMaxLength(50);
+
+                entity.Property(e => e.ValuationDate)
+                              .HasColumnName("ValuationDate")
+                              .HasColumnType("datetime");
+                
+            });
+
+
 
             modelBuilder.Entity<AccadjustmentStatus>(entity =>
             {
@@ -521,7 +555,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
             {
                 entity.Property(e => e.AssetAllocationId).HasColumnName("AssetAllocationID");
 
-                entity.Property(e => e.Comment).HasColumnType("nvarchar");
+                entity.Property(e => e.Comment).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.DealtRates).HasColumnType("numeric(18, 6)");
 
@@ -539,7 +573,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.RefNum)
                     .IsRequired()
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.ResidualEmployers).HasColumnType("numeric(18, 10)");
 
@@ -549,9 +583,9 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.ToPortfolioId).HasColumnName("ToPortfolioID");
 
-                entity.Property(e => e.TransferFrom).HasColumnType("nvarchar");
+                entity.Property(e => e.TransferFrom).HasColumnType("nvarchar(1000)");
 
-                entity.Property(e => e.TransferTo).HasColumnType("nvarchar");
+                entity.Property(e => e.TransferTo).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.TreatmentInjury).HasColumnType("numeric(18, 10)");
 
@@ -572,7 +606,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
             {
                 entity.Property(e => e.AssetClassId).HasColumnName("AssetClassID");
 
-                entity.Property(e => e.AssetClassName).HasColumnType("nvarchar");
+                entity.Property(e => e.AssetClassName).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Inactive).HasDefaultValueSql("((0))");
             });
@@ -1103,7 +1137,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.CreditAgencyCode).HasMaxLength(10);
 
-                entity.Property(e => e.CreditAgencyName).HasColumnType("nvarchar");
+                entity.Property(e => e.CreditAgencyName).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.InActive).HasDefaultValueSql("((0))");
             });
@@ -1207,7 +1241,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.ApprovalStatusId).HasColumnName("ApprovalStatusID");
 
-                entity.Property(e => e.Comments).HasColumnType("nvarchar");
+                entity.Property(e => e.Comments).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.EndDate).HasColumnType("date");
 
@@ -1320,7 +1354,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.DiscountRate).HasColumnType("decimal(18, 3)");
 
-                entity.Property(e => e.ExtraColumn).HasColumnType("nvarchar");
+                entity.Property(e => e.ExtraColumn).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.HoldingPercent).HasColumnType("decimal(18, 6)");
 
@@ -1733,7 +1767,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.CustomAccount)
                     .IsRequired()
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Inactive).HasDefaultValueSql("((0))");
 
@@ -1756,12 +1790,12 @@ namespace Alphacert.Acc.Ods.Entities.Entities
                 entity.Property(e => e.ContractCode)
                     .IsRequired()
                     .HasColumnName("contract_code")
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.IdstickerPrefix)
                     .IsRequired()
                     .HasColumnName("IDSTickerPrefix")
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Inactive).HasDefaultValueSql("((0))");
             });
@@ -1788,7 +1822,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
                 entity.Property(e => e.CustomAccount)
                     .IsRequired()
                     .HasColumnName("Custom_Account")
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.DeltaFactor)
                     .HasColumnName("Delta_Factor")
@@ -1862,7 +1896,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.CustomAccount)
                     .IsRequired()
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.InActive).HasDefaultValueSql("((0))");
 
@@ -1909,11 +1943,11 @@ namespace Alphacert.Acc.Ods.Entities.Entities
                 entity.Property(e => e.CustomAccount)
                     .IsRequired()
                     .HasColumnName("Custom_Account")
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.ExecutingBroker)
                     .HasColumnName("Executing_Broker")
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.ExecutionFees).HasColumnName("Execution_Fees");
 
@@ -1937,7 +1971,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.SettlementDate)
                     .HasColumnName("settlement_date")
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.StatementDate)
                     .HasColumnName("statement_date")
@@ -2067,7 +2101,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.AccadjustmentStatusId).HasColumnName("ACCAdjustmentStatusID");
 
-                entity.Property(e => e.AmortisationInPeriod).HasColumnType("nvarchar");
+                entity.Property(e => e.AmortisationInPeriod).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.BaseFairMarketValue).HasColumnType("numeric(18, 4)");
 
@@ -2079,7 +2113,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.BatchId).HasColumnName("BatchID");
 
-                entity.Property(e => e.EarnedIncomeInPeriod).HasColumnType("nvarchar");
+                entity.Property(e => e.EarnedIncomeInPeriod).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.ExchLclToPfMorDflag)
                     .HasColumnName("ExchLclToPfMorDFlag")
@@ -2103,7 +2137,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
                     .HasColumnName("ExchangeRatePortfolioToUSD")
                     .HasColumnType("decimal(18, 10)");
 
-                entity.Property(e => e.FuturesInitialMargin).HasColumnType("nvarchar");
+                entity.Property(e => e.FuturesInitialMargin).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Inactive).HasDefaultValueSql("((0))");
 
@@ -2129,9 +2163,9 @@ namespace Alphacert.Acc.Ods.Entities.Entities
                     .HasColumnName("NT_TotalMarketValueBaseIFRS")
                     .HasColumnType("numeric(18, 4)");
 
-                entity.Property(e => e.OriginalFaceValue).HasColumnType("nvarchar");
+                entity.Property(e => e.OriginalFaceValue).HasColumnType("nvarchar(1000)");
 
-                entity.Property(e => e.PortfolioCurrencyCode).HasColumnType("nvarchar");
+                entity.Property(e => e.PortfolioCurrencyCode).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.PortfolioId).HasColumnName("PortfolioID");
 
@@ -2143,7 +2177,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.PricingFactor).HasColumnType("numeric(18, 7)");
 
-                entity.Property(e => e.PricingType).HasColumnType("nvarchar");
+                entity.Property(e => e.PricingType).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.SecurityMaturityDate).HasColumnType("date");
 
@@ -2270,13 +2304,13 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.BloombergRef).HasMaxLength(255);
 
-                entity.Property(e => e.BrokerName).HasColumnType("nvarchar");
+                entity.Property(e => e.BrokerName).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.BuyCurrencyCode).HasMaxLength(3);
 
                 entity.Property(e => e.CallPut).HasMaxLength(255);
 
-                entity.Property(e => e.CollateralType).HasColumnType("nvarchar");
+                entity.Property(e => e.CollateralType).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Collateralised).HasMaxLength(255);
 
@@ -2332,9 +2366,9 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.InitialInvestmentDate).HasColumnType("date");
 
-                entity.Property(e => e.InstrumentInternalName).HasColumnType("nvarchar");
+                entity.Property(e => e.InstrumentInternalName).HasColumnType("nvarchar(1000)");
 
-                entity.Property(e => e.InstrumentName).HasColumnType("nvarchar");
+                entity.Property(e => e.InstrumentName).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.InstrumentParentId).HasColumnName("InstrumentParentID");
 
@@ -2746,7 +2780,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.InstrumentId).HasColumnName("InstrumentID");
 
-                entity.Property(e => e.BrokerName).HasColumnType("nvarchar");
+                entity.Property(e => e.BrokerName).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.BuyCurrencyCode).HasMaxLength(3);
 
@@ -2772,9 +2806,9 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.Inactive).HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.InstrumentInternalName).HasColumnType("nvarchar");
+                entity.Property(e => e.InstrumentInternalName).HasColumnType("nvarchar(1000)");
 
-                entity.Property(e => e.InstrumentName).HasColumnType("nvarchar");
+                entity.Property(e => e.InstrumentName).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.InstrumentParentId).HasColumnName("InstrumentParentID");
 
@@ -3112,7 +3146,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.CreditLimit).HasColumnType("money");
 
-                entity.Property(e => e.CreditNotes).HasColumnType("nvarchar");
+                entity.Property(e => e.CreditNotes).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.ExchangeId).HasColumnName("ExchangeID");
 
@@ -3136,7 +3170,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.IssuerCode).HasMaxLength(255);
 
-                entity.Property(e => e.IssuerName).HasColumnType("nvarchar");
+                entity.Property(e => e.IssuerName).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.MasterRepoAgreement).HasDefaultValueSql("((0))");
 
@@ -4187,7 +4221,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.Custodian).HasMaxLength(50);
 
-                entity.Property(e => e.CustodianCode).HasColumnType("nvarchar");
+                entity.Property(e => e.CustodianCode).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.CustodyAccount).HasMaxLength(255);
 
@@ -4195,7 +4229,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.Managed).HasMaxLength(255);
 
-                entity.Property(e => e.Name).HasColumnType("nvarchar");
+                entity.Property(e => e.Name).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.PortfolioEndDate).HasColumnType("date");
 
@@ -4714,7 +4748,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.DateNotified).HasColumnType("datetime");
 
-                entity.Property(e => e.EventComment).HasColumnType("nvarchar");
+                entity.Property(e => e.EventComment).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.InActive).HasDefaultValueSql("((0))");
 
@@ -4898,7 +4932,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Comments).HasColumnType("nvarchar");
+                entity.Property(e => e.Comments).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.CustodianId)
                     .IsRequired()
@@ -5176,7 +5210,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.ApprovedBy).HasMaxLength(20);
 
-                entity.Property(e => e.Comment).HasColumnType("nvarchar");
+                entity.Property(e => e.Comment).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
@@ -5224,7 +5258,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.ApprovedBy).HasMaxLength(20);
 
-                entity.Property(e => e.Comment).HasColumnType("nvarchar");
+                entity.Property(e => e.Comment).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.DateApproved).HasColumnType("datetime");
 
@@ -5276,7 +5310,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.ApprovedBy).HasMaxLength(20);
 
-                entity.Property(e => e.Comment).HasColumnType("nvarchar");
+                entity.Property(e => e.Comment).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.DateApproved).HasColumnType("datetime");
 
@@ -5601,7 +5635,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.Collateralised).HasMaxLength(255);
 
-                entity.Property(e => e.Comment).HasColumnType("nvarchar");
+                entity.Property(e => e.Comment).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Commission).HasColumnType("decimal(18, 6)");
 
@@ -5643,7 +5677,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.NetAmount).HasColumnType("decimal(18, 6)");
 
-                entity.Property(e => e.Notes).HasColumnType("nvarchar");
+                entity.Property(e => e.Notes).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.NumberOfShares).HasColumnType("decimal(18, 6)");
 
@@ -5909,7 +5943,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.WhoChanged)
                     .IsRequired()
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar(1000)");
 
                 entity.HasOne(d => d.Trade)
                     .WithMany(p => p.TradeHistory)
@@ -6050,7 +6084,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.BrokerId).HasMaxLength(255);
 
-                entity.Property(e => e.BrokerName).HasColumnType("nvarchar");
+                entity.Property(e => e.BrokerName).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.BuyCurrency).HasMaxLength(255);
 
@@ -6118,9 +6152,9 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.Gstreclaim).HasColumnName("GSTReclaim");
 
-                entity.Property(e => e.HiportTransactionSubTypeCode).HasColumnType("nvarchar");
+                entity.Property(e => e.HiportTransactionSubTypeCode).HasColumnType("nvarchar(1000)");
 
-                entity.Property(e => e.HiportTransactionTypeCode).HasColumnType("nvarchar");
+                entity.Property(e => e.HiportTransactionTypeCode).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Inactive).HasDefaultValueSql("((0))");
 
@@ -6306,9 +6340,9 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.TransactionId).HasColumnName("TransactionID");
 
-                entity.Property(e => e.TransactionSubTypeCode).HasColumnType("nvarchar");
+                entity.Property(e => e.TransactionSubTypeCode).HasColumnType("nvarchar(1000)");
 
-                entity.Property(e => e.TransactionTypeCode).HasColumnType("nvarchar");
+                entity.Property(e => e.TransactionTypeCode).HasColumnType("nvarchar(1000)");
 
                 entity.HasOne(d => d.Instrument)
                     .WithMany(p => p.TransactionLeg)
@@ -6347,7 +6381,7 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.BrokerId).HasMaxLength(255);
 
-                entity.Property(e => e.BrokerName).HasColumnType("nvarchar");
+                entity.Property(e => e.BrokerName).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.ClearingBrokerId).HasMaxLength(20);
 
@@ -6399,9 +6433,9 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.Gstreclaim).HasColumnName("GSTReclaim");
 
-                entity.Property(e => e.HiportTransactionSubTypeCode).HasColumnType("nvarchar");
+                entity.Property(e => e.HiportTransactionSubTypeCode).HasColumnType("nvarchar(1000)");
 
-                entity.Property(e => e.HiportTransactionTypeCode).HasColumnType("nvarchar");
+                entity.Property(e => e.HiportTransactionTypeCode).HasColumnType("nvarchar(1000)");
 
                 entity.Property(e => e.Inactive).HasDefaultValueSql("((0))");
 
@@ -6571,9 +6605,9 @@ namespace Alphacert.Acc.Ods.Entities.Entities
 
                 entity.Property(e => e.TransactionHistoryId).HasColumnName("TransactionHistoryID");
 
-                entity.Property(e => e.TransactionSubTypeCode).HasColumnType("nvarchar");
+                entity.Property(e => e.TransactionSubTypeCode).HasColumnType("nvarchar(1000)");
 
-                entity.Property(e => e.TransactionTypeCode).HasColumnType("nvarchar");
+                entity.Property(e => e.TransactionTypeCode).HasColumnType("nvarchar(1000)");
 
                 entity.HasOne(d => d.TransactionHistory)
                     .WithMany(p => p.TransactionLegHistory)

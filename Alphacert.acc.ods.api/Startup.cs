@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Alphacert.Acc.Ods.Entities;
 using Microsoft.EntityFrameworkCore;
 using Alphacert.Acc.Ods.Api;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.Logging;
 using AlphaCert.RDS.Repository;
+using Alphacert.Acc.Ods.Entities.Entities;
 
 namespace Alphacert.acc.ods.api
 {
@@ -26,6 +26,8 @@ namespace Alphacert.acc.ods.api
             var connectionString = Configuration[AppConstant.ConnectionString];
 
             services.AddDbContextPool<IDS_ODSContext>(o => o.UseSqlServer(connectionString)).AddAlphaCertUnitorOfWork();
+              
+            services.Configure<AppConfig>(Configuration);
             
             services.AddMvc();
                         
@@ -50,7 +52,7 @@ namespace Alphacert.acc.ods.api
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", AppConstant.ApiKeyInfo);
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));

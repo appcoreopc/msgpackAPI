@@ -12,7 +12,9 @@ namespace Alphacert.Acc.Ods.Api
 
         public const string ApiKeyInfo = "Alphacert.Acc.Ods.Api API";
 
+        public const string fileResourceName = "sample.txt";
 
+        public const string fileResourceFolder = "wwwroot";
 
         public const string ApiVersion = "v1";
     }
