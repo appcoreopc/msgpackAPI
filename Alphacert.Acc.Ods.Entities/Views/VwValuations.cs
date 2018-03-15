@@ -11,7 +11,7 @@ namespace Alphacert.Acc.Ods.Entities.Views
             
         public int? PortfolioId { get; set; }
 
-        public decimal? Market_Value_Local_Discount { get; set; }
+        public decimal? Total_Market_Value_Base_Discount { get; set; }
         
         public DateTime? ValuationDate { get; set; }
 

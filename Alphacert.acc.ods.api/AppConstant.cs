@@ -14,10 +14,14 @@ namespace Alphacert.Acc.Ods.Api
 
         public const string fileResourceName = "sample.txt";
 
+        public const string fileResourceMsgPackName = "sample.msg";
+
         public const string fileResourceFolder = "wwwroot";
 
         public const string ApiVersion = "v1";
         
         public const string UrlLastModifiedParamater = "last-modified";
+
+        public const string MimeApplicationTypeMsgPack = "application/x-msgpack";
     }
 }

@@ -246,8 +246,8 @@ namespace Alphacert.Acc.Ods.Entities.Entities
                                 .HasColumnName("Instrument_Name")
                                 .HasColumnType("nvarchar(4000)");
 
-                entity.Property(e => e.Market_Value_Local_Discount)
-                                .HasColumnName("Market_Value_Local_Discount")
+                entity.Property(e => e.Total_Market_Value_Base_Discount)
+                                .HasColumnName("Total_Market_Value_Base_Discount")
                                 .HasColumnType("decimal(38, 5)");
 
                 entity.Property(e => e.PortfolioId)

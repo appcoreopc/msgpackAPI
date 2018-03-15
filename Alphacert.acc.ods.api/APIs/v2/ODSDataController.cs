@@ -9,17 +9,16 @@ using Alphacert.Acc.Ods.Entities.Entities;
 using System.IO;
 using System.Linq;
 using Alphacert.Acc.Ods.Api.Models;
-
 using Alphacert.Acc.Ods.Api.Services;
 using Microsoft.Extensions.Options;
+using MessagePack;
 
 namespace Alphacert.Acc.Ods.Api.APIs.v2
 {
     [Route("[controller]")]
     public class ODSDataController : Controller
     {
-        private readonly IUnitOfWork<IDS_ODSContext> _unitOfWork;
-        //private readonly IDS_ODSContext _unitOfWork;
+        private readonly IUnitOfWork<IDS_ODSContext> _unitOfWork;        
         private ILogger<ODSDataController> _logger;
         private AppConfig _appConfig; 
 
@@ -72,36 +71,46 @@ namespace Alphacert.Acc.Ods.Api.APIs.v2
         [HttpPost("valuations/{version}")]
         public async Task<IActionResult> GetValuation(string version, [FromQuery(Name = AppConstant.UrlLastModifiedParamater)]DateTime? lastModified = null)
         {
-            new ValuationService(_appConfig.AppSettings.DBConnectionString).GetValuationData();
+            new MsgPackValuationService(_appConfig.AppSettings.DBConnectionString).GetValuationData();
             return Created("valuationsdata", string.Empty);
         }
-        
+
         [HttpGet("portfolios/{version}")]
         public async Task<IActionResult> GetPortfolios(string version, [FromQuery(Name = AppConstant.UrlLastModifiedParamater)]DateTime? lastModified = null)
         {
             var list = await _unitOfWork.Repository<Portfolio>().Query.All().AsEnumerableAsync();
             var data = list.Select(a => new ViewPortfolio
             {
-                PortfolioId  = a.PortfolioId.ToString(), 
-                PortfolioName = a.Name, 
-                StrategyCode = a.AccfundCode, 
+                PortfolioId = a.PortfolioId.ToString(),
+                PortfolioName = a.Name,
+                StrategyCode = a.AccfundCode,
                 FundKey = a.AccfundCode
             });
             return Json(data);
         }
-                         
+                                 
         [HttpGet("valuationsdata")]
         public async Task<IActionResult> GetPartialPortfolios(string version, [FromQuery(Name = AppConstant.UrlLastModifiedParamater)]DateTime? lastModified = null)
-        {            
-            var path = Path.Combine(AppConstant.fileResourceFolder, AppConstant.fileResourceName);
+        {
+           
+            var path = Path.Combine(AppConstant.fileResourceFolder, AppConstant.fileResourceMsgPackName);
+           
             if (System.IO.File.Exists(path))
             {
-                return File(System.IO.File.OpenRead(path), "text/plain");
+                return new FileStreamResult(System.IO.File.OpenRead(path), AppConstant.MimeApplicationTypeMsgPack);
+                            
+                //var result = MessagePackSerializer.Serialize(new ViewValuation() { PortfolioId = "00000" });
+                //return File(result, "application/x-msgpack");
+                //return File(System.IO.File.OpenRead(path), "text/plain");
+                //return File(System.IO.File.OpenRead(path), "application/x-msgpack");
             }
             else
             {
                 return Accepted();
             }
         }
+
+
+        
     }
 }

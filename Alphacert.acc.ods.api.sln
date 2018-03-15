@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alphacert.Acc.Ods.Api", "Alphacert.acc.ods.api\Alphacert.Acc.Ods.Api.csproj", "{02F7C551-82B2-4E38-9A73-C543EEB70958}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alphacert.Acc.Ods.Api", "Alphacert.acc.ods.api\Alphacert.Acc.Ods.Api.csproj", "{02F7C551-82B2-4E38-9A73-C543EEB70958}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alphacert.Acc.Ods.Entities", "Alphacert.Acc.Ods.Entities\Alphacert.Acc.Ods.Entities.csproj", "{605806DA-5173-4267-9638-08A6153AF93F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alphacert.Acc.Ods.Entities", "Alphacert.Acc.Ods.Entities\Alphacert.Acc.Ods.Entities.csproj", "{605806DA-5173-4267-9638-08A6153AF93F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alphacert.Acc.Ods.Client", "Alphacert.Acc.Ods.Client\Alphacert.Acc.Ods.Client.csproj", "{20F2B365-3F4E-42D8-9E1A-282EB4506A47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{605806DA-5173-4267-9638-08A6153AF93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{605806DA-5173-4267-9638-08A6153AF93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{605806DA-5173-4267-9638-08A6153AF93F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20F2B365-3F4E-42D8-9E1A-282EB4506A47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20F2B365-3F4E-42D8-9E1A-282EB4506A47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20F2B365-3F4E-42D8-9E1A-282EB4506A47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20F2B365-3F4E-42D8-9E1A-282EB4506A47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

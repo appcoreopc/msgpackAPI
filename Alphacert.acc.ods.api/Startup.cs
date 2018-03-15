@@ -8,6 +8,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.Logging;
 using AlphaCert.RDS.Repository;
 using Alphacert.Acc.Ods.Entities.Entities;
+using WebApiContrib.Core.Formatter.MessagePack;
 
 namespace Alphacert.acc.ods.api
 {
@@ -28,9 +29,9 @@ namespace Alphacert.acc.ods.api
             services.AddDbContextPool<IDS_ODSContext>(o => o.UseSqlServer(connectionString)).AddAlphaCertUnitorOfWork();
               
             services.Configure<AppConfig>(Configuration);
+                       
+            services.AddMvc().AddMessagePackFormatters();
             
-            services.AddMvc();
-                        
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(AppConstant.ApiVersion, new Info { Title = AppConstant.ApiKeyInfo, Version = AppConstant.ApiVersion });
