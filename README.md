@@ -1,6 +1,6 @@
 # msgpackAPI
 
-Purpose of this repository is to implement msgpack API 
+Purpose of this repository is to implement MsgPack API (https://github.com/neuecc/MessagePack-CSharp/) not the MsgPack Cli version. 
 
 On top of that we are trying to do :-
 
