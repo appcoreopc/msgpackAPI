@@ -11,7 +11,7 @@ namespace Alphacert.Acc.Ods.Api.Services
     public class MsgPackValuationService : IValuationService
     {
         private readonly string _connectionString = string.Empty;
-        private const int TakeAmount = 100;
+        private const int TakeAmount = 1000;
 
         public MsgPackValuationService(string connectionString) => _connectionString = connectionString;
                 

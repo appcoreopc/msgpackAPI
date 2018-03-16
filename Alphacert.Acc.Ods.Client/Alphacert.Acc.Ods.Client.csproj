@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Alphacert.acc.ods.api\Alphacert.Acc.Ods.Api.csproj" />
+    <ProjectReference Include="..\Alphacert.acc.ods.api\AlphaCert.ACC.DataAPI.csproj" />
   </ItemGroup>
 
 </Project>

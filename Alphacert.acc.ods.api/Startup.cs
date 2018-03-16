@@ -26,7 +26,8 @@ namespace Alphacert.acc.ods.api
         {
             var connectionString = Configuration[AppConstant.ConnectionString];
 
-            services.AddDbContextPool<IDS_ODSContext>(o => o.UseSqlServer(connectionString)).AddAlphaCertUnitorOfWork();
+            services.AddDbContextPool<IDS_ODSContext>(o => 
+            o.UseSqlServer(connectionString, x => x.MigrationsAssembly("Alphacert.Acc.Ods.Entities.Migrations"))).AddAlphaCertUnitorOfWork();
               
             services.Configure<AppConfig>(Configuration);
                        

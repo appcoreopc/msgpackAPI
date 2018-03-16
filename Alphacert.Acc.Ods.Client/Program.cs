@@ -34,12 +34,9 @@ namespace Alphacert.Acc.Ods.Client
             
             foreach (var item in returnValueType)
             {
-                Console.WriteLine(item.InstrumentId + ":" + item.GrossMarketValueBase);
-                
+                Console.WriteLine(item.InstrumentId + ":" + item.GrossMarketValueBase);                
             }
             
-
-           
         }
     }
 }

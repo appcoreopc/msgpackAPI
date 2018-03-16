@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Alphacert.Acc.Ods.Entities.Migration\Alphacert.Acc.Ods.Entities.Migrations.csproj" />
     <ProjectReference Include="..\Alphacert.Acc.Ods.Entities\Alphacert.Acc.Ods.Entities.csproj" />
   </ItemGroup>
 
