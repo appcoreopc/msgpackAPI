@@ -9,3 +9,6 @@ On top of that we are trying to do :-
 3. Data that we are delivering is about 690M and to prevent connection time out or server side out of memory exception we use POST 
 and returns immediately a new resource (url) that client side can poll to get the data once processing is completed. 
 
+What we don't see in this implementation is :- 
+
+a) /valudationdata API supports RANGE - If you provide a range in the headers, you can request for a specific sequence / length or resume from previous download. Trick is the FileResult  / FileStreamResult. 
